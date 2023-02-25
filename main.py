@@ -1,5 +1,4 @@
 from aiogram import Bot, types, Dispatcher, executor
-from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from dotenv import load_dotenv
@@ -77,9 +76,9 @@ async def download_audio(message:types.Message, state:FSMContext):
         except:
             await message.answer("Произошла ошибка при скачивании")
             os.remove(audio)
-        await state.finish()
     else:
             await message.reply("Отправленная вами ссылка недействительна. Отправьте ссылку на Youtube видео.")
+    await state.finish()
 
 @dp.message_handler(commands=['video'])
 async def video(message:types.Message):
@@ -101,13 +100,13 @@ async def download_video(message:types.Message, state:FSMContext):
         except:
             await message.answer("Произошла ошибка при скачивании")
             os.remove(video)
-        await state.finish()
     else:
         await message.reply("Отправленная вами ссылка недействительна. Отправьте ссылку на Youtube видео.")
+    await state.finish()
 
 @dp.message_handler(commands=['mailing'])
 async def mailing(message:types.Message):
-    if message.from_user.id == 731982105:
+    if message.from_user.id in (731982105, 1199299157):
         await message.answer("Введите текст для рассылки: ")
         await Mail.title.set()
     else:
